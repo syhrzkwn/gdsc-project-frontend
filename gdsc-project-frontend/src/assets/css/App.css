@@ -1,0 +1,69 @@
+.logo {
+  width: 120px;
+  display: block;
+  margin: 0 auto;
+}
+
+.card {
+  margin: 10% 10% 0 10%;
+}
+
+.question {
+  margin-left: 10px;
+  font-weight: 600;
+}
+
+.input-main {
+  display: flex;
+  flex-direction: row;
+}
+
+.input {
+  font-family: Poppins, system-ui, sans-serif;
+  outline-color: #4885ED;
+  border: 2px solid #4885ED;
+  border-radius: 10px 0 0 10px;
+  padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+
+.search-button {
+  border: 2px solid #4885ED;
+  background-color: #4885ED;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 0 10px 10px 0;
+  font-family: Poppins, system-ui, sans-serif;
+  cursor: pointer;
+}
+
+i {
+  font-size: large;
+}
+
+hr {
+  margin: 3rem 0 3rem 0;
+}
+
+.respond-title {
+  font-weight: 600;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 95vh;
+}
+
+.content {
+  flex: 1;
+}
+
+.footer {
+  text-align: center;
+  margin-top: auto;
+  padding: 2rem 0;
+}
