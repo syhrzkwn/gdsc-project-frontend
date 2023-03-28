@@ -1,3 +1,18 @@
+:root {
+  font-family: Poppins, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color: #4D5156;
+  background-color: #ffff;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
 .logo {
   width: 120px;
   display: block;
@@ -28,6 +43,10 @@
   box-sizing: border-box;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
+}
+
+.input:focus {
+  outline: none;
 }
 
 .search-button {
@@ -66,4 +85,14 @@ hr {
   text-align: center;
   margin-top: auto;
   padding: 2rem 0;
+}
+
+.footer i {
+  font-size: 12px;
+  color: #4D5156;
+}
+
+a {
+  color: #4D5156;
+  /* text-decoration: none; */
 }
