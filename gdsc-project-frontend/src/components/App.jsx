@@ -1,21 +1,55 @@
 import axios from "axios";
 import gdscLogo from "../assets/gdsc-logo.png";
-import { useEffect, useState } from 'react'
+import { useState } from "react";
 
 function App() {
-  // try and error
-  const [input, setInput] = useState("");
+  // testing purpose set 1
+  // const [quote, setQuote] = useState("");
+  // const getQuote = () => {
+  //   axios.get("https://fastapi-pypdf.onrender.com/")
+  //     .then((res) => {
+  //       console.log(res.data.message);
+  //       setQuote(res.data.message);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
 
-  const fetchData = (value) => {
-    fetch("https://fastapi-pypdf.onrender.com/").then((response) => response.json().then(json => {
-      console.log(json);
-    }));
+  const [post, setPost] = useState({
+    data: ''
+  });
+
+  const handleInput = (event) => {
+    setPost({...post, [event.target.name]: event.target.value})
   }
 
-  const handleChange = (value) => {
-    setInput(value);
-    fetchData(value);
+  const handleSubmit = async() => {
+    // store the states in the form data
+    const formData = new FormData();
+    formData.append("data", post.data)
+
+    try {
+      // make axios post request
+      const response = await axios({
+        method: "post",
+        url: "https://fastapi-pypdf.onrender.com/predict",
+        data: formData,
+        headers: {"Content-Type": "multipart/form-data"},
+      })
+    } catch (error) {
+      console.log(error)
+    }
   }
+
+  // testing purpose set 1
+  // when click the button, should expect response message on the console and also under the button
+  // return (
+  //   <div className="content">
+  //     <button onClick={getQuote}>Get Quote</button>
+  //     {quote && <p>{quote}</p>}
+  //   </div>
+  // );
 
   return (
     <div className="content">
@@ -23,15 +57,15 @@ function App() {
       <div className="card">
         {/* Question and Input section */}
         <p className="question">Hello 👋🏻, how are you feeling today?</p>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="input-main">
-            <input 
+            <input
               type="text"
-              value={input}
-              onChange={(e) => handleChange(e.target.value)}
+              name="data"
+              onChange={handleInput}
               placeholder="Today i felt ..."
               className="input"
-              name="data"
+              value={post.data}
             />
             <button type="submit" className="search-button">
               <i className="bi bi-send"></i>
@@ -39,20 +73,12 @@ function App() {
           </div>
         </form>
         {/* Respond section */}
-        <hr />
+        {/* How to return the response over here */}
         <div>
+          <hr/>
           <p className="respond-title">Respond:</p>
           <p className="respond-text">
-            Example Example Example Example Example Example Example Example
-            Example Example Example Example Example Example Example Example
-            Example Example Example Example Example Example Example Example
-            Example Example Example Example Example Example Example Example
-            Example Example Example Example Example Example Example Example
-            Example Example Example Example Example Example Example Example
-            Example Example Example Example Example Example Example Example
-            Example Example Example Example Example Example Example Example
-            Example Example Example Example Example Example Example Example
-            Example Example Example Example Example Example Example Example
+            Example.
           </p>
         </div>
       </div>
