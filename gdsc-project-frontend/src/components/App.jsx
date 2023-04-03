@@ -3,53 +3,28 @@ import gdscLogo from "../assets/gdsc-logo.png";
 import { useState } from "react";
 
 function App() {
-  // testing purpose set 1
-  // const [quote, setQuote] = useState("");
-  // const getQuote = () => {
-  //   axios.get("https://fastapi-pypdf.onrender.com/")
-  //     .then((res) => {
-  //       console.log(res.data.message);
-  //       setQuote(res.data.message);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
+  const [inputValue, setInputValue] = useState("");
+  const [response, setResponse] = useState([]);
+  const [error, setError] = useState("")
 
-  const [post, setPost] = useState({
-    data: ''
-  });
-
-  const handleInput = (event) => {
-    setPost({...post, [event.target.name]: event.target.value})
-  }
-
-  const handleSubmit = async() => {
-    // store the states in the form data
-    const formData = new FormData();
-    formData.append("data", post.data)
-
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const url = "https://googlesolutionfastapi.onrender.com/predict";
+    const data = { input: inputValue };
     try {
-      // make axios post request
-      const response = await axios({
-        method: "post",
-        url: "https://fastapi-pypdf.onrender.com/predict",
-        data: formData,
-        headers: {"Content-Type": "multipart/form-data"},
-      })
-    } catch (error) {
-      console.log(error)
+      const res = await axios.post(url, data);
+      // setResponse(res.data);
+      setResponse((prevResponse) => [...prevResponse. res.data]);
+      console.log(res.data);
+    } catch (err) {
+      console.log(err);
+      setError("An error occurred. Please try again.");
     }
-  }
+  };
 
-  // testing purpose set 1
-  // when click the button, should expect response message on the console and also under the button
-  // return (
-  //   <div className="content">
-  //     <button onClick={getQuote}>Get Quote</button>
-  //     {quote && <p>{quote}</p>}
-  //   </div>
-  // );
+  const handleInputChange = (event) => {
+    setInputValue(event.target.value);
+  };
 
   return (
     <div className="content">
@@ -61,11 +36,10 @@ function App() {
           <div className="input-main">
             <input
               type="text"
-              name="data"
-              onChange={handleInput}
-              placeholder="Today i felt ..."
+              onChange={handleInputChange}
+              placeholder="Today i felt ... (Psst! The more you type in, the better the results)"
               className="input"
-              value={post.data}
+              value={inputValue}
             />
             <button type="submit" className="search-button">
               <i className="bi bi-send"></i>
@@ -73,13 +47,129 @@ function App() {
           </div>
         </form>
         {/* Respond section */}
-        {/* How to return the response over here */}
         <div>
-          <hr/>
-          <p className="respond-title">Respond:</p>
-          <p className="respond-text">
-            Example.
-          </p>
+          {/* {error && <span>{error}</span>} */}
+          {error && (
+            <span>
+              <hr />
+              <p className="respond-title">Respond:</p>
+              <p className="respond-text">{error}</p>
+            </span>
+          )}
+          {response.length > 0 && (
+            <span>
+              {response.map((item, index) => {
+                if (item.prediction === 0) {
+                  return <span key={index}>
+                    <hr />
+                    <p className="respond-title">Respond:</p>
+                    <p className="respond-text">
+                      You were diagnosed with <strong>general anxiety disorder, major depressive disorder,
+                      Hypomania, panic disorder, adjustment disorder, sexual dysfunction, and performance anxiety.</strong>
+                      <span> This is may caused by your work stress, companionship issues, or life crisis.</span>
+                      <span> Below are the symptoms that you may have:</span>
+                      <ul>
+                        <li>Anxiety</li>
+                        <li>Helplessness</li>
+                        <li>Emptiness</li>
+                        <li>Loss of Motivation</li>
+                        <li>Anhedonia</li>
+                        <li>Fatigue</li>
+                        <li>Increased/Decreased in Libido</li>
+                        <li>Afraid to be judged</li>
+                        <li>Thought of Incompetence</li>
+                      </ul>
+                      <br/>
+                      Your confidence score is: <strong>{item.confidence_score}</strong>
+                    </p>
+                  </span>;
+                }
+                else if (item.prediction === 1) {
+                  return <span key={index}>
+                    <hr />
+                    <p className="respond-title">Respond:</p>
+                    <p className="respond-text">
+                      You were diagnosed with <strong>general anxiety disorder, major depressive disorder,
+                      Hypomania, panic disorder, adjustment disorder, Agoraphobia, and social phobia.</strong>
+                      <span> This is may caused by your work stress, companionship issues, life crisis, or public scenario.</span>
+                      <span> Below are the symptoms that you may have:</span>
+                      <ul>
+                        <li>Anxiety</li>
+                        <li>Helplessness</li>
+                        <li>Emptiness</li>
+                        <li>Loss of Motivation</li>
+                        <li>Anhedonia</li>
+                        <li>Fatigue</li>
+                        <li>Insomnia</li>
+                        <li>Isolation</li>
+                        <li>Social awkwardness</li>
+                      </ul>
+                      <br/>
+                      Your confidence score is: <strong>{item.confidence_score}</strong>
+                    </p>
+                  </span>;
+                }
+                else if (item.prediction === 2) {
+                  return <span key={index}>
+                    <hr />
+                    <p className="respond-title">Respond:</p>
+                    <p className="respond-text">
+                      You were diagnosed with <strong>general anxiety disorder, major depressive disorder,
+                      Hypomania, panic disorder, adjustment disorder, and bipolar disorder.</strong>
+                      <span> This is may caused by your work stress or companion issues.</span>
+                      <span> Below are the symptoms that you may have:</span>
+                      <ul>
+                        <li>Anxiety</li>
+                        <li>Helplessness</li>
+                        <li>Emptiness</li>
+                        <li>Loss of Motivation</li>
+                        <li>Anhedonia</li>
+                        <li>Fatigue</li>
+                        <li>Isolation</li>
+                      </ul>
+                      <br/>
+                      Your confidence score is: <strong>{item.confidence_score}</strong>
+                    </p>
+                  </span>;
+                }
+                else if (item.prediction === 3) {
+                  return <span key={index}>
+                    <hr />
+                    <p className="respond-title">Respond:</p>
+                    <p className="respond-text">
+                      You were diagnosed with <strong>general anxiety disorder, major depressive disorder,
+                      Hypomania, panic disorder, adjustment disorder, suicidal ideation, paranoid, Schizophrenia, borderline personality disorder, and dissociative disorder.</strong>
+                      <span> This is may caused by your work stress, companion issues, public expectation, underlying unresolved health issues, hereditary traits, or type-A personality.</span>
+                      <span> Below are the symptoms that you may have:</span>
+                      <ul>
+                        <li>Anxiety</li>
+                        <li>Helplessness</li>
+                        <li>Emptiness</li>
+                        <li>Loss of Motivation</li>
+                        <li>Anhedonia</li>
+                        <li>Fatigue</li>
+                        <li>Isolation</li>
+                        <li>Suicidal Thoughts</li>
+                        <li>Paranoia</li>
+                        <li>Hearing voices</li>
+                        <li>Hallucination</li>
+                        <li>Competitiveness</li>
+                      </ul>
+                      <br/>
+                      Your confidence score is: <strong>{item.confidence_score}</strong>
+                    </p>
+                  </span>;
+                }
+                else {
+                  return <span>
+                    <hr />
+                    <p className="respond-title">Respond:</p>
+                    <p className="respond-text">Something went wrong.</p>
+                  </span>;
+                }
+              })}
+            </span>
+          )}
         </div>
       </div>
     </div>
